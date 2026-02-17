@@ -1,11 +1,12 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user");
 
-const createUser = async ({ email, name, password, userRole }) => {
+const createUser = async ({ email, phone, name, password, userRole }) => {
     try {
         const userCreate = await User.create({
             name,
             email,
+            phone,
             password,
             user_role: userRole
         });
