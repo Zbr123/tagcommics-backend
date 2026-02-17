@@ -33,7 +33,7 @@ const loginValidator = (req, res, done) => {
         }
         done();
     } catch (error) {
-        console.error("validators->authValidator.js->registerValidator");
+        console.error("validators->authValidator.js->loginValidator");
         console.log(err)
     }
 }
