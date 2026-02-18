@@ -12,27 +12,9 @@ const { syncModels } = require('./src/utils/sync-models')
 
 dotenv.config()
 
-const approvedDomains = [
-  'http://localhost:3000',
-  'https://tagcommics-website-next-production.up.railway.app'
-];
-
 fastify.register(require('@fastify/cors'), {
-  origin: (origin, cb) => {
-    if (!origin) return cb(null, true);
-
-    const isAllowed = approvedDomains.some(domain =>
-      origin.startsWith(domain)
-    );
-
-    if (isAllowed) {
-      cb(null, true);
-    } else {
-      cb(new Error("Not allowed by CORS"), false);
-    }
-  },
+  origin: "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
 });
 
 
