@@ -2,6 +2,7 @@ const userService = require('./user.service');
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user");
 const { signJwt } = require("../utils/jwt-sign");
+const { comparePassword } = require('../utils/compare-password');
 
 
 const register = async (body) => {
@@ -21,10 +22,9 @@ const login = async (body) => {
         return {
             status: StatusCodes.NOT_FOUND,
             message: "User Not Found",
-            data: userCreate.toJSON()
         }
     }
-    const isValid = await user.validatePassword(body?.password);
+    const isValid = await comparePassword(body?.password,user?.password);
 
     if (!isValid) {
         return {

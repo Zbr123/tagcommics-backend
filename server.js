@@ -1,8 +1,6 @@
 const fastify = require('fastify')({
     logger: true
 })
-
-const cors = require('@fastify/cors')
 const swagger = require('@fastify/swagger')
 const swaggerUI = require('@fastify/swagger-ui')
 
