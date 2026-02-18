@@ -12,9 +12,14 @@ const { syncModels } = require('./src/utils/sync-models')
 
 dotenv.config()
 
+const approvedDomains=[
+    'http://localhost:3000',
+    'https://tagcommics-website-next-production.up.railway.app'
+]
+
 // ✅ Register CORS
 fastify.register(cors, {
-    origin: "*",
+    origin: approvedDomains,
     methods: ['GET', 'POST', 'PUT', 'DELETE']
 })
 
