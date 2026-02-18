@@ -19,17 +19,22 @@ const approvedDomains = [
 
 fastify.register(require('@fastify/cors'), {
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true); // allow non-browser requests
+    if (!origin) return cb(null, true);
 
-    if (approvedDomains.includes(origin)) {
+    const isAllowed = approvedDomains.some(domain =>
+      origin.startsWith(domain)
+    );
+
+    if (isAllowed) {
       cb(null, true);
     } else {
       cb(new Error("Not allowed by CORS"), false);
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
 });
+
 
 // ✅ Register Swagger
 fastify.register(swagger, {
