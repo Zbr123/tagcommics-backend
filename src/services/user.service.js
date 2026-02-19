@@ -1,14 +1,30 @@
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user");
+const { encryptPassword } = require("../utils/encrypt-password");
+const ROLES = require("../enums/roles");
 
 const createUser = async ({ email, phone, name, password, userRole }) => {
     try {
+
+        const isUserExists = await User.findOne({
+            where: {
+                email
+            }
+        });
+
+        if (isUserExists) {
+            return {
+                status: StatusCodes.CONFLICT,
+                message: "User Already exists"
+            }
+        }
+
         const userCreate = await User.create({
             name,
             email,
             phone,
             password,
-            user_role: userRole
+            user_role: userRole || ROLES.CUSTOMER
         });
 
         return {

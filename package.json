@@ -9,7 +9,8 @@
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:all": "sequelize-cli db:seed:all",
     "db:setup": "yarn db:migrate",
-    "start": "yarn db:setup && nodemon server.js"
+    "start": "yarn db:setup && nodemon server.js",
+    "down":"sequelize-cli db:migrate:undo:all"
   },
   "keywords": [
     "tag-commics"

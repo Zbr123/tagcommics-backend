@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const { sequelize } = require("../../config/pg-config");
 const { encryptPassword } = require("../utils/encrypt-password");
 const { comparePassword } = require("../utils/compare-password");
+const ROLES = require("../enums/roles");
 
 const User = sequelize.define("user", {
   user_id: {
@@ -14,13 +15,13 @@ const User = sequelize.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  phone:{
+  phone: {
     type: DataTypes.STRING,
   },
   user_role: {
-    type: DataTypes.ENUM("customer", "admin"),
+    type: DataTypes.ENUM(ROLES.CUSTOMER, ROLES.ADMIN),
     allowNull: false,
-    defaultValue: "customer",
+    defaultValue: ROLES.CUSTOMER,
   },
   email: {
     type: DataTypes.STRING,
@@ -47,27 +48,32 @@ const User = sequelize.define("user", {
 }, {
   defaultScope: {
     attributes: { exclude: ['password'] }
+  },
+  scopes: {
+    withPassword: {
+      attributes: {}
+    }
   }
 });
 
 
 // create a hashed password before inserting it into DB
-User.addHook('beforeCreate', (user, options) => {
+User.addHook('beforeCreate', async (user, options) => {
   if (user.password) {
-    user.password = encryptPassword(user.password);
+    user.password = await encryptPassword(user.password);
   }
 });
 
 
 //this is for password validation (during login or any sort of authentication)
-User.prototype.validatePassword = async (password) => {
-  return await comparePassword(password, this.password)
-}
+User.prototype.validatePassword = async function (password) {
+  return await comparePassword(password, this.password);
+};
 
 //for updation hook
 User.addHook('beforeUpdate', async (user) => {
   if (user.changed('password')) {
-    user.password = encryptPassword(user.password);
+    user.password = await encryptPassword(user.password);
   }
 });
 

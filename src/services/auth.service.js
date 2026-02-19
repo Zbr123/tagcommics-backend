@@ -2,7 +2,6 @@ const userService = require('./user.service');
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user");
 const { signJwt } = require("../utils/jwt-sign");
-const { comparePassword } = require('../utils/compare-password');
 
 
 const register = async (body) => {
@@ -12,7 +11,7 @@ const register = async (body) => {
 
 const login = async (body) => {
 
-    const user = await User.findOne({
+    const user = await User.scope('withPassword').findOne({
         where: {
             email: body?.email
         }
@@ -24,12 +23,13 @@ const login = async (body) => {
             message: "User Not Found",
         }
     }
-    const isValid = await comparePassword(body?.password,user?.password);
+    
+    const isValid = await user.validatePassword(body?.password);
 
     if (!isValid) {
         return {
             status: StatusCodes.UNAUTHORIZED,
-            message: "Password is wrong",
+            message: "Either Username or Password is wrong",
         }
     }
 

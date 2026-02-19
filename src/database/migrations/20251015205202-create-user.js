@@ -1,5 +1,6 @@
 'use strict';
 const { DataTypes } = require("sequelize");
+const ROLES = require("../../enums/roles");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -24,9 +25,9 @@ module.exports = {
         allowNull: false,
       },
       user_role: {
-        type: DataTypes.ENUM("customer", "admin"),
+        type: DataTypes.ENUM(ROLES.CUSTOMER, ROLES.ADMIN),
         allowNull: false,
-        defaultValue: "customer",
+        defaultValue: ROLES.CUSTOMER,
       },
       email: {
         type: DataTypes.STRING,
@@ -52,6 +53,11 @@ module.exports = {
     }, {
       defaultScope: {
         attributes: { exclude: ['password'] }
+      },
+      scopes: {
+        withPassword: {
+          attributes: {}
+        }
       }
     });
   },
