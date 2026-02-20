@@ -22,7 +22,7 @@ module.exports = {
       }
     });
 
-    await queryInterface.createTable('comic_tags', {
+    await queryInterface.createTable('comic-tags', {
       comic_id: {
         type: DataTypes.UUID,
         primaryKey: true,
@@ -41,7 +41,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('comic_tags');
+    await queryInterface.dropTable('comic-tags');
     await queryInterface.dropTable('comic-categories');
   }
 };

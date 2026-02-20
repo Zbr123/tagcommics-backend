@@ -16,12 +16,12 @@ Category.belongsToMany(Comics, {
 
 // Comic <-> Tag (many-to-many)
 Comics.belongsToMany(Tag, {
-    through: "comic_tags",
+    through: "comic-tags",
     foreignKey: "comic_id",
     otherKey: "tag_id"
 });
 Tag.belongsToMany(Comics, {
-    through: "comic_tags",
+    through: "comic-tags",
     foreignKey: "tag_id",
     otherKey: "comic_id"
 });
