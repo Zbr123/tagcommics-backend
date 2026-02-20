@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize')
 const {sequelize} = require('../../config/pg-config');
-const user = require('./user');
+const User = require('./user');
 
 const order= sequelize.define('order',{
     order_id:{
@@ -10,7 +10,7 @@ const order= sequelize.define('order',{
     customer_id:{
         type: DataTypes.UUID,
         references:{
-            model: user,
+            model: User,
             key:'user_id'
         }
     },

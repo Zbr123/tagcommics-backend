@@ -27,11 +27,17 @@ const createUser = async ({ email, phone, name, password, userRole }) => {
             user_role: userRole || ROLES.CUSTOMER
         });
 
+        // convert the data into json
+        const userData = userCreate.toJSON();
+
+        // do not show password
+        delete userData.password;
+
         return {
             status: StatusCodes.CREATED,
             message: "User Created Successfully",
-            data: userCreate.toJSON()
-        }
+            data: userData
+        };
     } catch (e) {
         console.log(e)
         return {

@@ -1,7 +1,7 @@
-const {sequelize} = require('../../config/pg-config')
+const { sequelize } = require('../../config/pg-config');
 
-
-//sequelize = console.log;
+// Load models and set associations before sync (creates junction tables)
+require('../models/associations');
 
 
 async function syncModels() {

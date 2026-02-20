@@ -1,11 +1,23 @@
 const testController = require("../controllers/test.controller");
 
-const testRoute=[
+const testRoute = [
     {
-        url:'/',
-        method:'GET',
-        handler: testController.testController
-    }
-]
+        url: '/',
+        method: 'GET',
+        handler: testController.testController,
+        schema: {
+            summary: "Health check",
+            tags: ["Health"],
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" },
+                    },
+                },
+            },
+        },
+    },
+];
 
-module.exports=testRoute
+module.exports = testRoute;
