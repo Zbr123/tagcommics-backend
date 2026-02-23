@@ -2,6 +2,7 @@ const userService = require('./user.service');
 const { StatusCodes } = require("http-status-codes");
 const User = require("../models/user");
 const { signJwt } = require("../utils/jwt-sign");
+const ROLES = require('../enums/roles');
 
 
 const register = async (body) => {
@@ -23,7 +24,7 @@ const login = async (body) => {
             message: "User Not Found",
         }
     }
-    
+
     const isValid = await user.validatePassword(body?.password);
 
     if (!isValid) {
@@ -34,13 +35,13 @@ const login = async (body) => {
     }
 
     //create access token for the user
-    const token = signJwt({ email: body?.email, name: user?.name });
+    const token = signJwt({ email: body?.email, name: user?.name, is_admin: user?.user_role === ROLES.ADMIN });
 
     return {
         status: StatusCodes.OK,
         message: "User Logged in",
         data: {
-            accessToken: token
+            access_token: token
         }
     }
 }

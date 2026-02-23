@@ -41,7 +41,7 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
-      discount: {
+      discounted_price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0
@@ -90,6 +90,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('comic');
+    await queryInterface.dropTable('comic', { cascade: true });
   }
 };

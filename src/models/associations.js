@@ -1,6 +1,7 @@
 const { Comics } = require("./comics");
 const { Category } = require("./categories");
 const { Tag } = require("./tags");
+const User = require("./user");
 
 // Comic <-> Category (many-to-many)
 Comics.belongsToMany(Category, {
@@ -24,4 +25,14 @@ Tag.belongsToMany(Comics, {
     through: "comic-tags",
     foreignKey: "tag_id",
     otherKey: "comic_id"
+});
+
+Comics.belongsTo(User, {
+    foreignKey: "created_by",
+    as: "creator"
+});
+
+User.hasMany(Comics, {
+    foreignKey: "created_by",
+    as: "comics"
 });

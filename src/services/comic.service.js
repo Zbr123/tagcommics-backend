@@ -1,5 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const { Comics } = require("../models/comics");
+const { base64_decode } = require("../utils/base64_decode");
 
 const createComic = async (payload) => {
     try {
@@ -24,6 +25,12 @@ const createComic = async (payload) => {
             tag_ids = []
         } = payload;
 
+        let randomFileName = null;
+        if (data.image) {
+            randomFileName = uuid.v4() + "." + cover_image_url.extension;
+            const targetDir = path.join(process.cwd(), "src", "uploads", "comics", "images");
+            base64_decode(cover_image_url, randomFileName, targetDir);
+        }
         const comic = await Comics.create({
             title,
             currency: currency || "USD",
@@ -33,7 +40,7 @@ const createComic = async (payload) => {
             series_name,
             price: price ?? 0,
             discount: discount ?? 0,
-            cover_image_url,
+            cover_image_url: randomFileName,
             digital_file_url,
             is_digital: is_digital ?? false,
             is_physical: is_physical ?? true,

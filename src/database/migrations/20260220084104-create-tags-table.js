@@ -27,6 +27,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('tag');
+    await queryInterface.dropTable('tag',{cascade: true});
   }
 };

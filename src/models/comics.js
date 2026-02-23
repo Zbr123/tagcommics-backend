@@ -37,7 +37,7 @@ const Comics = sequelize.define("comic", {
         allowNull: false,
         defaultValue: 0
     },
-    discount: {
+    discounted_price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
         defaultValue: 0
@@ -81,6 +81,10 @@ const Comics = sequelize.define("comic", {
     sold_count: {
         type: DataTypes.INTEGER,
         defaultValue: 0
+    },
+    created_by:{
+        type: DataTypes.UUID,
+        
     }
 }
 );
