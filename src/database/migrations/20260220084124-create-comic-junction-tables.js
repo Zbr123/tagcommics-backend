@@ -41,7 +41,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('comic-tags');
-    await queryInterface.dropTable('comic-categories');
+    await queryInterface.dropTable('comic-tags', { cascade: true });
+    await queryInterface.dropTable('comic-categories', { cascade: true });
   }
 };

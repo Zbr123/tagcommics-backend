@@ -35,7 +35,7 @@ const login = async (body) => {
     }
 
     //create access token for the user
-    const token = signJwt({ email: body?.email, name: user?.name, is_admin: user?.user_role === ROLES.ADMIN });
+    const token = signJwt({ user_id: user?.user_id, email: body?.email, name: user?.name, is_admin: user?.user_role === ROLES.ADMIN });
 
     return {
         status: StatusCodes.OK,

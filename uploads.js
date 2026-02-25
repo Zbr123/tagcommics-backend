@@ -8,7 +8,7 @@ const comic_pdf_path = path.resolve(
     "src",
     "uploads",
     "comics",
-    "pdf"
+    "pdfs"
 );
 
 if (!fs.existsSync(comic_pdf_path)) {
