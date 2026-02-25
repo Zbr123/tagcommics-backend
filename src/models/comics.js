@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../../config/pg-config");
+const User = require("./user");
 
 const Comics = sequelize.define("comic", {
     comic_id: {
@@ -82,9 +83,20 @@ const Comics = sequelize.define("comic", {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    created_by:{
+    created_by: {
         type: DataTypes.UUID,
-        
+        references: {
+            model: User,
+            key: 'user_id'
+        }
+    },
+    tags: {
+        type: DataTypes.JSONB,
+        allowNull: true
+    },
+    categories: {
+        type: DataTypes.JSONB,
+        allowNull: true
     }
 }
 );

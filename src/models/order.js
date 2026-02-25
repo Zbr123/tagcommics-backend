@@ -1,31 +1,32 @@
 const { DataTypes } = require('sequelize')
-const {sequelize} = require('../../config/pg-config');
+const { sequelize } = require('../../config/pg-config');
 const User = require('./user');
 
-const order= sequelize.define('order',{
-    order_id:{
+const Order = sequelize.define('order', {
+    order_id: {
         type: DataTypes.UUID,
-        primaryKey:true
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
     },
-    customer_id:{
+    customer_id: {
         type: DataTypes.UUID,
-        references:{
+        references: {
             model: User,
-            key:'user_id'
+            key: 'user_id'
         }
     },
-    total_amount:{
+    total_amount: {
         type: DataTypes.FLOAT,
         allowNull: false
     },
-    order_status:{
-        type: DataTypes.ENUM('delivered','shipped','processing'),
-        defaultValue: 'processing'
+    order_status: {
+        type: DataTypes.ENUM('placed', 'delivered', 'shipped', 'processing', 'cancelled'),
+        defaultValue: 'placed'
     },
-    products:{ //here, product ids will be there
+    comics: {
         type: DataTypes.JSONB,
         allowNull: false
     }
 })
 
-module.exports=order;
+module.exports = Order;
