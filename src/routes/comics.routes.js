@@ -7,6 +7,17 @@ const comicsRoutes = [
         method: "POST",
         preHandler: [authenticate, authorizeAdmin],
         handler: comicController.createComicController,
+    },
+    {
+        url: "/comics",
+        method: "GET",
+        handler: comicController.getComicController,
+    },
+    {
+        url: "/comics",
+        method: "DELETE",
+        preHandler: [authenticate, authorizeAdmin],
+        handler: comicController.deleteComicController,
     }
 ];
 

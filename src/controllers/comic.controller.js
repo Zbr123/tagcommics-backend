@@ -34,6 +34,27 @@ const createComicController = async (req, res) => {
     res.status(result.status).send(result);
 };
 
+const getComicController = async (req, res) => {
+    const body = req.body;
+    let result = null;
+    if (body) {
+        result = await comicService.getComics({ ...body });
+    } else {
+        result = await comicService.getComics();
+    }
+
+    res.status(result.status).send(result);
+};
+
+const deleteComicController = async (req, res) => {
+    const { comic_id } = req.body;
+    const result = await comicService.deleteComic(comic_id);
+    res.status(result.status).send(result);
+};
+
+
 module.exports = {
-    createComicController
+    createComicController,
+    getComicController,
+    deleteComicController
 };

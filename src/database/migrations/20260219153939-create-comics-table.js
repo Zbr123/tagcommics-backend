@@ -56,7 +56,7 @@ module.exports = {
       },
       is_digital: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false
+        defaultValue: true
       },
       is_physical: {
         type: DataTypes.BOOLEAN,
