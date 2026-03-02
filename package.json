@@ -10,7 +10,9 @@
     "db:seed:all": "sequelize-cli db:seed:all",
     "db:setup": "yarn db:migrate",
     "start": "yarn db:setup && nodemon server.js",
-    "down": "sequelize-cli db:migrate:undo:all"
+    "down": "sequelize-cli db:migrate:undo:all",
+    "erd": "node scripts/generate-erd.js",
+    "erd:cli": "sequelize-erd --source ./scripts/erd-source.js --destination ./erd.svg"
   },
   "keywords": [
     "tag-commics"
@@ -41,6 +43,8 @@
     "pg": "^8.12.0",
     "sequelize": "^6.37.3",
     "sequelize-cli": "^6.6.5",
+    "sequelize-erd": "^1.3.1",
+    "stripe": "^20.4.0",
     "typeorm": "^0.3.20"
   }
 }

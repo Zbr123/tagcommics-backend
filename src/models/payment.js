@@ -26,6 +26,11 @@ const Payment = sequelize.define('payment', {
             model: Order,
             key: 'order_id'
         }
+    },
+    stripe_customer_id: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        comment: 'Stripe customer id when payment_mode is online-transfer'
     }
 })
 
