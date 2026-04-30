@@ -4,7 +4,8 @@ const registerValidatorSchema = Joi.object({
     name: Joi.string().required(),
     email: Joi.string().email().required(),
     phone: Joi.optional(),
-    password: Joi.string().min(8).required()
+    password: Joi.string().min(8).required(),
+    userRole: Joi.string().valid('customer', 'admin').optional()
 });
 
 const loginSchema = Joi.object({

@@ -82,9 +82,18 @@ const Comics = sequelize.define("comic", {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
+    slug: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true
+    },
+    is_featured: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     created_by:{
         type: DataTypes.UUID,
-        
+
     }
 }
 );

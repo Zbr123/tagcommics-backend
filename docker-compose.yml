@@ -1,4 +1,3 @@
-version: "1"
 services:
   pgsql:
     image: postgres:14.7
