@@ -28,6 +28,25 @@ const ComicCharacter = sequelize.define("comic_character", {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
+  image: {
+    type: DataTypes.TEXT,
+  },
+  tags:{
+    type: DataTypes.JSONB, // ["tag1", "tag2", ...]
+    allowNull: true
+  },
+  first_appearance: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  creator: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  alignment: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
 });
 
 module.exports = ComicCharacter;

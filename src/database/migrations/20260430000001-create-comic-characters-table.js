@@ -30,6 +30,26 @@ module.exports = {
       updated_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+      },
+      image: {
+        type: DataTypes.TEXT,
+        allowNull: true
+      },
+      tags: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      first_appearance: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      creator: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      alignment: {
+        type: DataTypes.STRING,
+        allowNull: true
       }
     });
   },

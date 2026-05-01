@@ -99,7 +99,7 @@ const Comics = sequelize.define("comic", {
         allowNull: true
     },
     characters: {
-        type: DataTypes.JSONB,
+        type: DataTypes.JSONB, // [uuid-1, uuid-2, ...] character uuid
         allowNull: true
     }
 }
