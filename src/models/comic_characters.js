@@ -28,8 +28,9 @@ const ComicCharacter = sequelize.define("comic_character", {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW,
   },
-  image: {
+  cover_image_url: {
     type: DataTypes.TEXT,
+    allowNull: true
   },
   tags:{
     type: DataTypes.JSONB, // ["tag1", "tag2", ...]

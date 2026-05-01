@@ -24,7 +24,7 @@ const characterRoutes = [
                                     character_name: { type: 'string' },
                                     description: { type: 'string' },
                                     total_books_appeared_in: { type: 'integer' },
-                                    image: { type: 'string' },
+                                    cover_image_url: { type: 'string' },
                                     tags: { type: 'array', items: { type: 'string' } },
                                     first_appearance: { type: 'string' },
                                     creator: { type: 'string' },
@@ -109,13 +109,14 @@ const characterRoutes = [
         schema: {
             description: 'Create a new character (Admin only)',
             tags: ['Characters'],
+            consumes: ['multipart/form-data'],
             body: {
                 type: 'object',
                 properties: {
                     character_name: { type: 'string' },
                     description: { type: 'string' },
-                    image: { type: 'string' },
-                    tags: { type: 'array', items: { type: 'string' } },
+                    cover_image: { type: 'string', format: 'binary' },
+                    tags: { type: 'string' },
                     first_appearance: { type: 'string' },
                     creator: { type: 'string' },
                     alignment: { type: 'string' }
@@ -134,7 +135,7 @@ const characterRoutes = [
                                 character_name: { type: 'string' },
                                 description: { type: 'string' },
                                 total_books_appeared_in: { type: 'integer' },
-                                image: { type: 'string' },
+                                cover_image_url: { type: 'string' },
                                 tags: { type: 'array', items: { type: 'string' } },
                                 first_appearance: { type: 'string' },
                                 creator: { type: 'string' },
