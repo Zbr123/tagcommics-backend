@@ -85,7 +85,19 @@ module.exports = {
       sold_count: {
         type: DataTypes.INTEGER,
         defaultValue: 0
-      }
+      },
+      tags:{
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      categories:{
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
+      characters: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
     });
   },
 

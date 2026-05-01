@@ -1,5 +1,6 @@
 const comicController = require("../controllers/comic.controller");
-const { authenticate, authorizeAdmin } = require("../middleware/auth.middleware");
+const { authenticate, authorizeRole } = require("../middleware/auth.middleware");
+const ROLES = require("../enums/roles");
 
 const comicsRoutes = [
     // Public endpoints
@@ -43,13 +44,18 @@ const comicsRoutes = [
     {
         url: "/comics",
         method: "POST",
-        preHandler: [authenticate, authorizeAdmin],
+        preHandler: [authenticate, authorizeRole(ROLES.ADMIN)],
         handler: comicController.createComicController,
+    },
+    {
+        url: "/comics/by-character/:character_id",
+        method: "GET",
+        handler: comicController.getComicsByCharacterController,
     },
     {
         url: "/comics",
         method: "DELETE",
-        preHandler: [authenticate, authorizeAdmin],
+        preHandler: [authenticate, authorizeRole(ROLES.ADMIN)],
         handler: comicController.deleteComicController,
     },
 ];

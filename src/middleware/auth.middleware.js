@@ -8,7 +8,9 @@ const authenticate = async (req, reply) => {
         const token = req.headers.authorization?.split(" ")[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findByPk(decoded.user_id);
-        if (!user) throw new Error();
+        if (!user) {
+            return reply.code(StatusCodes.NOT_FOUND).send({ message: "User Not found" });
+        }
 
         req.user = user; // full user object
     } catch (err) {
@@ -16,17 +18,12 @@ const authenticate = async (req, reply) => {
     }
 };
 
-const authorizeAdmin = async (req, reply) => {
-    if (req.user.user_role !== ROLES.ADMIN) {
-        return reply.code(StatusCodes.FORBIDDEN).send({ message: "Admins only" });
-    }
+const authorizeRole = (...allowedRoles) => {
+    return async (req, reply) => {
+        if (!allowedRoles.includes(req.user.user_role)) {
+            return reply.code(StatusCodes.FORBIDDEN).send({ message: "Forbidden" });
+        }
+    };
 };
 
-const authorizeCustomer = async (req, reply) => {
-    if (req.user.user_role !== ROLES.CUSTOMER) {
-        return reply.code(StatusCodes.FORBIDDEN).send({ message: "Customers only" });
-    }
-};
-
-
-module.exports = { authenticate, authorizeAdmin, authorizeCustomer }
+module.exports = { authenticate, authorizeRole };

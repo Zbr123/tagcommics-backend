@@ -20,29 +20,29 @@ const comic_image_path = path.resolve(
 );
 
 async function buildApp() {
-    // CORS
-    await fastify.register(cors, {
-        origin: "*",
-    });
+  // CORS
+  await fastify.register(cors, {
+    origin: "*",
+  });
 
-    // Swagger
-    await fastify.register(swagger, {
-        openapi: {
-            info: {
-                title: "TagCommics API",
-                version: "1.0.0",
-            },
-        },
-    });
+  // Swagger
+  await fastify.register(swagger, {
+    openapi: {
+      info: {
+        title: "TagCommics API",
+        version: "1.0.0",
+      },
+    },
+  });
 
-    await fastify.register(swaggerUI, {
-        routePrefix: "/docs",
-    });
+  await fastify.register(swaggerUI, {
+    routePrefix: "/docs",
+  });
 
-    // Multipart
-    await fastify.register(multipart, {
-        limits: { fileSize: 40 * 1024 * 1024 },
-    });
+  // Multipart
+  await fastify.register(multipart, {
+    limits: { fileSize: 40 * 1024 * 1024 },
+  });
 
     // Static - PDFs
     await fastify.register(async (instance) => {
@@ -66,7 +66,7 @@ async function buildApp() {
         fastify.route(route);
     });
 
-    return fastify;
+  return fastify;
 }
 
 module.exports = buildApp;

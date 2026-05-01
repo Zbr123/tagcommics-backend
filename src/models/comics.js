@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../../config/pg-config");
+const User = require("./user");
 
 const Comics = sequelize.define("comic", {
     comic_id: {
@@ -82,7 +83,7 @@ const Comics = sequelize.define("comic", {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    slug: {
+slug: {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true
@@ -91,11 +92,27 @@ const Comics = sequelize.define("comic", {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
-    created_by:{
+    created_by: {
         type: DataTypes.UUID,
-
+        references: {
+            model: User,
+            key: 'user_id'
+        }
+    },
+    tags: {
+        type: DataTypes.JSONB,
+        allowNull: true
+    },
+    categories: {
+        type: DataTypes.JSONB,
+        allowNull: true
+    },
+    characters: {
+        type: DataTypes.JSONB, // [uuid-1, uuid-2, ...] character uuid
+        allowNull: true
     }
-}
+    }
+
 );
 
 module.exports = { Comics };

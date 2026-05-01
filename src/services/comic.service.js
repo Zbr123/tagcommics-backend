@@ -348,6 +348,39 @@ const searchComics = async ({ q, page = 1, limit = 20 } = {}) => {
     }
 };
 
+
+const getComicsByCharacter = async (character_id) => {
+  try {
+    const comics = await Comics.findAll({
+      where: {
+        characters: {
+          [Op.contains]: [character_id]
+        }
+      }
+    });
+
+    if (comics.length === 0) {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        message: "Comics not found"
+      };
+    }
+
+    return {
+      status: StatusCodes.OK,
+      message: "Comics fetched successfully",
+      data: comics
+    };
+
+    } catch (e) {
+        console.error(e);
+        return {
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: e.message
+        };
+    }
+};
+
 const deleteComic = async (comicId) => {
     try {
         const comic = await Comics.findByPk(comicId);
@@ -394,5 +427,5 @@ module.exports = {
     getBestSellers,
     getByCategory,
     searchComics,
-    deleteComic
+    getComicsByCharacter, deleteComic
 };
