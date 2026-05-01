@@ -97,6 +97,10 @@ const Comics = sequelize.define("comic", {
     categories: {
         type: DataTypes.JSONB,
         allowNull: true
+    },
+    characters: {
+        type: DataTypes.JSONB,
+        allowNull: true
     }
 }
 );

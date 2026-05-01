@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { Comics } = require("../models/comics");
 const { deleteFile } = require("../utils/delete-file");
+const { Op } = require("sequelize");
 const path = require('path')
 
 const createComic = async ({ ...fields }) => {
@@ -66,6 +67,37 @@ const getComics = async () => {
   }
 };
 
+const getComicsByCharacter = async (character_id) => {
+  try {
+    const comics = await Comics.findAll({
+      where: {
+        characters: {
+          [Op.contains]: [character_id]
+        }
+      }
+    });
+
+    if (comics.length === 0) {
+      return {
+        status: StatusCodes.NOT_FOUND,
+        message: "Comics not found"
+      };
+    }
+
+    return {
+      status: StatusCodes.OK,
+      message: "Comics fetched successfully",
+      data: comics
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+      message: e.message
+    };
+  }
+};
+
 const deleteComic = async (comic_id) => {
   try {
     const comic = await Comics.findByPk(comic_id);
@@ -100,4 +132,4 @@ const deleteComic = async (comic_id) => {
   }
 }
 
-module.exports = { createComic, getComics, deleteComic };
+module.exports = { createComic, getComics, getComicsByCharacter, deleteComic };

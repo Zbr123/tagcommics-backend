@@ -93,7 +93,11 @@ module.exports = {
       categories:{
         type: DataTypes.JSONB,
         allowNull: true
-      }
+      },
+      characters: {
+        type: DataTypes.JSONB,
+        allowNull: true
+      },
     });
   },
 

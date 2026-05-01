@@ -15,6 +15,11 @@ const comicsRoutes = [
         handler: comicController.getComicController,
     },
     {
+        url: "/comics/by-character/:character_id",
+        method: "GET",
+        handler: comicController.getComicsByCharacterController,
+    },
+    {
         url: "/comics",
         method: "DELETE",
         preHandler: [authenticate, authorizeRole(ROLES.ADMIN)],

@@ -3,6 +3,8 @@ const { Category } = require("./categories");
 const { Tag } = require("./tags");
 const User = require("./user");
 const Order = require("./order");
+const ComicCharacter = require("./comic_characters");
+const Role = require("./role");
 
 // Comic <-> Category (many-to-many); alias avoids collision with Comics.categories (JSONB attribute)
 Comics.belongsToMany(Category, {
@@ -50,4 +52,18 @@ Order.belongsTo(User, {
 User.hasMany(Order, {
     foreignKey: "customer_id",
     as: "orders"
+});
+
+// ComicCharacter <-> Role (many-to-many)
+ComicCharacter.belongsToMany(Role, {
+    through: "character-roles",
+    foreignKey: "character_id",
+    otherKey: "role_id",
+    as: "roles"
+});
+Role.belongsToMany(ComicCharacter, {
+    through: "character-roles",
+    foreignKey: "role_id",
+    otherKey: "character_id",
+    as: "characters"
 });
