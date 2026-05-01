@@ -31,7 +31,7 @@ module.exports = {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
       },
-      image: {
+      cover_image_url: {
         type: DataTypes.TEXT,
         allowNull: true
       },

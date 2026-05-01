@@ -69,6 +69,21 @@ const getCharacterByIdService = async (character_id) => {
                 }
             }
         });
+
+        return {
+            status: StatusCodes.OK,
+            message: "Character fetched successfully",
+            data: {
+                ...character.toJSON(),
+                comics: comics.map(comic => ({
+                    comic_id: comic.comic_id,
+                    title: comic.title,
+                    issue_number: comic.issue_number,
+                    series_name: comic.series_name,
+                    cover_image_url: comic.cover_image_url
+                }))
+            }
+        };
     } catch (e) {
         console.error(e);
         return {
