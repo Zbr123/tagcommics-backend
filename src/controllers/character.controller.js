@@ -1,5 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const characterService = require("../services/character.service");
+const path = require("path");
+const { saveFile } = require("../utils/save-file");
 
 const getAllCharactersController = async (req, res) => {
   try {
@@ -42,9 +44,7 @@ const getCharacterByIdController = async (req, res) => {
 
 const createCharacterController = async (req, res) => {
   try {
-    // const { ...characterData } = req.body;
     const parts = req.parts();
-    
     let fields = {};
 
     for await (const part of parts) {
@@ -55,15 +55,16 @@ const createCharacterController = async (req, res) => {
             path.join(process.cwd(), "src/uploads/characters/images"),
           );
         }
-    } else {
+      } else {
         fields[part.fieldname] = part.value;
+      }
     }
+
     const result = await characterService.createCharacterService(fields);
     res.status(result.status).send({
-        message: result.message,
-        data: result.data
+      message: result.message,
+      data: result.data
     });
-}
   } catch (error) {
     console.error(
       "controllers->character.controller.js->createCharacterController",

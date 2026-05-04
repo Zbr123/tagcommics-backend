@@ -19,6 +19,15 @@ const comic_image_path = path.resolve(
     "images"
 );
 
+// Character image storage path
+const character_image_path = path.resolve(
+    process.cwd(),
+    "src",
+    "uploads",
+    "characters",
+    "images"
+);
+
 async function buildApp() {
   // CORS
   await fastify.register(cors, {
@@ -57,6 +66,14 @@ async function buildApp() {
         await instance.register(fastifyStatic, {
             root: comic_image_path,
             prefix: "/api/v1/uploads/images/",
+        });
+    });
+
+    // Static - Character Images
+    await fastify.register(async (instance) => {
+        await instance.register(fastifyStatic, {
+            root: character_image_path,
+            prefix: "/api/v1/uploads/characters/",
         });
     });
 
