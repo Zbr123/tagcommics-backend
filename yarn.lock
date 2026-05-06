@@ -1933,7 +1933,7 @@ strip-ansi@^7.0.1:
   dependencies:
     ansi-regex "^6.0.1"
 
-stripe@^20.4.0:
+stripe@^20.4.1:
   version "20.4.1"
   resolved "https://registry.npmjs.org/stripe/-/stripe-20.4.1.tgz"
   integrity sha512-axCguHItc8Sxt0HC6aSkdVRPffjYPV7EQqZRb2GkIa8FzWDycE7nHJM19C6xAIynH1Qp1/BHiopSi96jGBxT0w==

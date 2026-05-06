@@ -57,15 +57,15 @@ async function buildApp() {
     await fastify.register(async (instance) => {
         await instance.register(fastifyStatic, {
             root: comic_pdf_path,
-            prefix: "/api/v1/uploads/comic/",
+            prefix: "/api/v1/uploads/comics/pdfs/",
         });
     });
 
-    // Static - Cover Images
+    // Static - Book Images (covers for character books)
     await fastify.register(async (instance) => {
         await instance.register(fastifyStatic, {
             root: comic_image_path,
-            prefix: "/api/v1/uploads/images/",
+            prefix: "/api/v1/uploads/comics/images/",
         });
     });
 
