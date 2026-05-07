@@ -626,6 +626,64 @@ const getAllBooksService = async ({ limit = 20, page = 1 } = {}) => {
     }
 };
 
+// Delete a character and all associated data
+const deleteCharacterService = async (character_id) => {
+    const transaction = await sequelize.transaction();
+    try {
+        const character = await ComicCharacter.findOne({
+            where: { character_id },
+            transaction
+        });
+
+        if (!character) {
+            await transaction.rollback();
+            return {
+                status: StatusCodes.NOT_FOUND,
+                message: "Character not found"
+            };
+        }
+
+        // Delete associated CharacterBooks
+        const books = await CharacterBook.findAll({
+            where: { character_id },
+            transaction
+        });
+
+        if (books.length > 0) {
+            await CharacterBook.destroy({
+                where: { character_id },
+                transaction
+            });
+            console.log(`Deleted ${books.length} character books`);
+        }
+
+        // Delete character-roles junction entries (if not using CASCADE)
+        await sequelize.query(
+            `DELETE FROM "character-roles" WHERE character_id = :character_id`,
+            {
+                replacements: { character_id },
+                transaction
+            }
+        );
+
+        // Delete the character
+        await character.destroy({ transaction });
+
+        await transaction.commit();
+        return {
+            status: StatusCodes.OK,
+            message: "Character deleted successfully"
+        };
+    } catch (e) {
+        await transaction.rollback();
+        console.error(e);
+        return {
+            status: StatusCodes.INTERNAL_SERVER_ERROR,
+            message: e.message
+        };
+    }
+};
+
 module.exports = {
     getAllCharactersService,
     getCharacterByIdService,
@@ -636,6 +694,7 @@ module.exports = {
     removeBookFromCharacterService,
     updateBookService,
     getBookByIdService,
+    deleteCharacterService,
     // Feed services
     getLatestReleasesService,
     getFlashSaleService,

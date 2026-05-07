@@ -22,15 +22,15 @@ const getLibraryController = async (req, res) => {
 const checkAccessController = async (req, res) => {
   try {
     const customerId = req.user.user_id;
-    const { item_type, item_id } = req.query;
+    const { pdf_url } = req.query;
 
-    if (!item_type || !item_id) {
+    if (!pdf_url) {
       return res.status(StatusCodes.BAD_REQUEST).send({
-        message: "item_type and item_id are required",
+        message: "pdf_url is required",
       });
     }
 
-    const result = await libraryService.checkAccess(customerId, item_type, item_id);
+    const result = await libraryService.checkAccess(customerId, pdf_url);
     res.status(result.status).send({
       message: result.hasAccess ? "Access granted" : "Access denied",
       hasAccess: result.hasAccess,

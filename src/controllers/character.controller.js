@@ -214,6 +214,18 @@ const getBookByIdController = async (req, res) => {
   }
 };
 
+// Delete character
+const deleteCharacterController = async (req, res) => {
+  try {
+    const result = await characterService.deleteCharacterService(req.params.character_id);
+    res.status(result.status).send({ message: result.message });
+  } catch (error) {
+    console.error("controllers->character.controller.js->deleteCharacterController");
+    console.log(error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getAllCharactersController,
   getCharacterByIdController,
@@ -223,4 +235,5 @@ module.exports = {
   removeBookFromCharacterController,
   updateBookController,
   getBookByIdController,
+  deleteCharacterController,
 };

@@ -12,20 +12,20 @@ const { comic_pdf_path } = require("./uploads");
 
 // Image storage path
 const comic_image_path = path.resolve(
-    process.cwd(),
-    "src",
-    "uploads",
-    "comics",
-    "images"
+  process.cwd(),
+  "src",
+  "uploads",
+  "comics",
+  "images",
 );
 
 // Character image storage path
 const character_image_path = path.resolve(
-    process.cwd(),
-    "src",
-    "uploads",
-    "characters",
-    "images"
+  process.cwd(),
+  "src",
+  "uploads",
+  "characters",
+  "images",
 );
 
 async function buildApp() {
@@ -48,40 +48,47 @@ async function buildApp() {
     routePrefix: "/docs",
   });
 
+  fastify.register(require("fastify-raw-body"), {
+    field: "rawBody",
+    global: false,
+    encoding: "utf8",
+    runFirst: true,
+  });
+
   // Multipart
   await fastify.register(multipart, {
     limits: { fileSize: 40 * 1024 * 1024 },
   });
 
-    // Static - PDFs
-    await fastify.register(async (instance) => {
-        await instance.register(fastifyStatic, {
-            root: comic_pdf_path,
-            prefix: "/api/v1/uploads/comics/pdfs/",
-        });
+  // Static - PDFs
+  await fastify.register(async (instance) => {
+    await instance.register(fastifyStatic, {
+      root: comic_pdf_path,
+      prefix: "/api/v1/uploads/comics/pdfs/",
     });
+  });
 
-    // Static - Book Images (covers for character books)
-    await fastify.register(async (instance) => {
-        await instance.register(fastifyStatic, {
-            root: comic_image_path,
-            prefix: "/api/v1/uploads/comics/images/",
-        });
+  // Static - Book Images (covers for character books)
+  await fastify.register(async (instance) => {
+    await instance.register(fastifyStatic, {
+      root: comic_image_path,
+      prefix: "/api/v1/uploads/comics/images/",
     });
+  });
 
-    // Static - Character Images
-    await fastify.register(async (instance) => {
-        await instance.register(fastifyStatic, {
-            root: character_image_path,
-            prefix: "/api/v1/uploads/characters/",
-        });
+  // Static - Character Images
+  await fastify.register(async (instance) => {
+    await instance.register(fastifyStatic, {
+      root: character_image_path,
+      prefix: "/api/v1/uploads/characters/",
     });
+  });
 
-    // Routes
-    routes.forEach((route) => {
-        route.url = `/api/v1${route.url.startsWith("/") ? route.url : "/" + route.url}`;
-        fastify.route(route);
-    });
+  // Routes
+  routes.forEach((route) => {
+    route.url = `/api/v1${route.url.startsWith("/") ? route.url : "/" + route.url}`;
+    fastify.route(route);
+  });
 
   return fastify;
 }

@@ -50,6 +50,14 @@ const characterRoutes = [
         method: 'DELETE',
         preHandler: [authenticate, authorizeRole(ROLES.ADMIN)],
         handler: characterController.removeBookFromCharacterController,
+    },
+
+    // Delete character
+    {
+        url: '/characters/:character_id',
+        method: 'DELETE',
+        preHandler: [authenticate, authorizeRole(ROLES.ADMIN)],
+        handler: characterController.deleteCharacterController,
     }
 ];
 
