@@ -24,13 +24,13 @@ const getLibrary = async (customerId) => {
 };
 
 // Check if user has access to specific item
-const checkAccess = async (customerId, itemType, itemId) => {
+const checkAccess = async (customerId, pdf_url) => {
   try {
+    console.log(`Checking access for customer_id: ${customerId}, pdf_url: ${pdf_url}`);
     const libraryItem = await Library.findOne({
       where: {
         customer_id: customerId,
-        item_type: itemType,
-        [itemType === "comic" ? "comic_id" : "character_book_id"]: itemId,
+        pdf_url: pdf_url,
       },
     });
 

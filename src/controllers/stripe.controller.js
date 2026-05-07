@@ -11,7 +11,7 @@ const createCheckoutSessionController = async (req, res) => {
     const result = await stripeService.createCheckoutSession(
       customerId,
       items,
-      customerEmail
+      customerEmail,
     );
 
     res.status(result.status).send({
@@ -19,7 +19,10 @@ const createCheckoutSessionController = async (req, res) => {
       data: result.data,
     });
   } catch (error) {
-    console.error("stripe.controller.js->createCheckoutSessionController", error);
+    console.error(
+      "stripe.controller.js->createCheckoutSessionController",
+      error,
+    );
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
       message: "Internal Server Error",
     });
@@ -28,11 +31,13 @@ const createCheckoutSessionController = async (req, res) => {
 
 // Stripe webhook handler (raw body needed for signature verification)
 const handleStripeWebhookController = async (req, res) => {
+  const rawBody = req.rawBody;
+  console.log("Raw body length:", rawBody ? rawBody.length : "UNDEFINED");
   const signature = req.headers["stripe-signature"];
 
   try {
-    const event = stripeService.constructEvent(req.rawBody, signature);
-
+    const event = stripeService.constructEvent(rawBody, signature);
+    console.log("Received webhook event:", event.type);
     switch (event.type) {
       case "checkout.session.completed":
         const session = event.data.object;

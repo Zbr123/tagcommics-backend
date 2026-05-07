@@ -121,16 +121,6 @@ const addBookToCharacterService = async (character_id, bookData) => {
             };
         }
 
-        if (bookData.comic_id) {
-            const comic = await Comics.findByPk(bookData.comic_id);
-            if (!comic) {
-                return {
-                    status: StatusCodes.NOT_FOUND,
-                    message: "Comic not found"
-                };
-            }
-        }
-
         const newBook = await CharacterBook.create({
             character_id,
             comic_id: bookData.comic_id || null,

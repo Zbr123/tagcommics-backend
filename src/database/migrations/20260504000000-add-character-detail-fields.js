@@ -5,86 +5,104 @@ const { DataTypes } = require('sequelize');
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn('comic_characters', 'strength', {
+    const tableName = 'comic_characters';
+    const tableDefinition = await queryInterface.describeTable(tableName);
+
+    const addColumnIfMissing = async (columnName, definition) => {
+      if (!tableDefinition[columnName]) {
+        await queryInterface.addColumn(tableName, columnName, definition);
+      }
+    };
+
+    await addColumnIfMissing('strength', {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: { min: 0, max: 100 }
     });
 
-    await queryInterface.addColumn('comic_characters', 'speed', {
+    await addColumnIfMissing('speed', {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: { min: 0, max: 100 }
     });
 
-    await queryInterface.addColumn('comic_characters', 'intelligence', {
+    await addColumnIfMissing('intelligence', {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: { min: 0, max: 100 }
     });
 
-    await queryInterface.addColumn('comic_characters', 'durability', {
+    await addColumnIfMissing('durability', {
       type: DataTypes.INTEGER,
       defaultValue: 0,
       validate: { min: 0, max: 100 }
     });
 
-    await queryInterface.addColumn('comic_characters', 'lore_items', {
+    await addColumnIfMissing('lore_items', {
       type: DataTypes.JSONB,
       allowNull: true,
       defaultValue: []
     });
 
-    await queryInterface.addColumn('comic_characters', 'featured_comics', {
+    await addColumnIfMissing('featured_comics', {
       type: DataTypes.JSONB,
       allowNull: true,
       defaultValue: []
     });
 
-    await queryInterface.addColumn('comic_characters', 'related_entities', {
+    await addColumnIfMissing('related_entities', {
       type: DataTypes.JSONB,
       allowNull: true,
       defaultValue: []
     });
 
-    await queryInterface.addColumn('comic_characters', 'universe', {
+    await addColumnIfMissing('universe', {
       type: DataTypes.STRING,
       allowNull: true
     });
 
-    await queryInterface.addColumn('comic_characters', 'role', {
+    await addColumnIfMissing('role', {
       type: DataTypes.ENUM('HERO', 'VILLAIN', 'ANTI_HERO', 'ENTITY'),
       allowNull: true
     });
 
-    await queryInterface.addColumn('comic_characters', 'spotlight_body', {
+    await addColumnIfMissing('spotlight_body', {
       type: DataTypes.TEXT,
       allowNull: true
     });
 
-    await queryInterface.addColumn('comic_characters', 'title_line1', {
+    await addColumnIfMissing('title_line1', {
       type: DataTypes.STRING,
       allowNull: true
     });
 
-    await queryInterface.addColumn('comic_characters', 'title_line2', {
+    await addColumnIfMissing('title_line2', {
       type: DataTypes.STRING,
       allowNull: true
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.removeColumn('comic_characters', 'strength');
-    await queryInterface.removeColumn('comic_characters', 'speed');
-    await queryInterface.removeColumn('comic_characters', 'intelligence');
-    await queryInterface.removeColumn('comic_characters', 'durability');
-    await queryInterface.removeColumn('comic_characters', 'lore_items');
-    await queryInterface.removeColumn('comic_characters', 'featured_comics');
-    await queryInterface.removeColumn('comic_characters', 'related_entities');
-    await queryInterface.removeColumn('comic_characters', 'universe');
-    await queryInterface.removeColumn('comic_characters', 'role');
-    await queryInterface.removeColumn('comic_characters', 'spotlight_body');
-    await queryInterface.removeColumn('comic_characters', 'title_line1');
-    await queryInterface.removeColumn('comic_characters', 'title_line2');
+    const tableName = 'comic_characters';
+    const tableDefinition = await queryInterface.describeTable(tableName);
+
+    const removeColumnIfExists = async (columnName) => {
+      if (tableDefinition[columnName]) {
+        await queryInterface.removeColumn(tableName, columnName);
+      }
+    };
+
+    await removeColumnIfExists('strength');
+    await removeColumnIfExists('speed');
+    await removeColumnIfExists('intelligence');
+    await removeColumnIfExists('durability');
+    await removeColumnIfExists('lore_items');
+    await removeColumnIfExists('featured_comics');
+    await removeColumnIfExists('related_entities');
+    await removeColumnIfExists('universe');
+    await removeColumnIfExists('role');
+    await removeColumnIfExists('spotlight_body');
+    await removeColumnIfExists('title_line1');
+    await removeColumnIfExists('title_line2');
   }
 };
