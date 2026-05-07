@@ -93,7 +93,8 @@ const addItemToCart = async (customerId, itemType, itemId, quantity) => {
             meta = {
                 book_type: product.is_digital ? 'E-book' : 'Physical',
                 slug: product.slug,
-                rating: product.rating
+                rating: product.rating,
+                comic_id: product.id
             };
         } else if (itemType === 'character_book') {
             product = await CharacterBook.findByPk(itemId, { transaction });
@@ -110,7 +111,8 @@ const addItemToCart = async (customerId, itemType, itemId, quantity) => {
                 book_type: product.book_type,
                 tags: product.tags,
                 pdf_url: product.pdf_file,
-                category: product.category
+                category: product.category,
+                character_book_id: product.id
             };
         }
 

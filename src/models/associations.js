@@ -8,6 +8,7 @@ const CharacterBook = require("./character_book");
 const Role = require("./role");
 const Cart = require("./cart");
 const CartItem = require("./cart_item");
+const Payment = require("./payment");
 
 // Comic <-> Category (many-to-many); alias avoids collision with Comics.categories (JSONB attribute)
 Comics.belongsToMany(Category, {
@@ -83,3 +84,7 @@ CharacterBook.belongsTo(ComicCharacter, {
 // CartItem -> Comics association already defined in cart_item.js model
 
 // CartItem -> CharacterBook association already defined in cart_item.js model
+
+// Order -> Payment (one-to-one via order_id)
+Order.hasOne(Payment, { as: 'payment', foreignKey: 'order_id' });
+Payment.belongsTo(Order, { as: 'order', foreignKey: 'order_id' });

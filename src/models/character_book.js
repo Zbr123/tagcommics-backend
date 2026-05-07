@@ -56,8 +56,12 @@ const CharacterBook = sequelize.define("character_book", {
     allowNull: true,
   },
   review: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
     defaultValue: 0,
+    validate: {
+      min: 0,
+      max: 5
+    }
   },
   created_at: {
     type: DataTypes.DATE,
