@@ -409,6 +409,13 @@ const removeBookFromCharacterService = async (character_id, bookId) => {
             };
         }
 
+        // Delete cart_items referencing this book before deleting the book
+        // (avoids FK constraint violation since item_type='character_book' requires character_book_id IS NOT NULL)
+        await sequelize.query(
+            `DELETE FROM cart_items WHERE character_book_id = :bookId AND item_type = 'character_book'`,
+            { replacements: { bookId } }
+        );
+
         await book.destroy();
 
         const updatedCharacter = await ComicCharacter.findOne({
