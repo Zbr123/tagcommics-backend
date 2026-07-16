@@ -9,7 +9,8 @@
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:all": "sequelize-cli db:seed:all",
     "db:setup": "yarn db:migrate",
-    "start": "yarn db:setup && nodemon server.js",
+    "dev": "yarn db:setup && nodemon server.js",
+    "start": "yarn db:setup && node server.js",
     "down": "sequelize-cli db:migrate:undo:all",
     "erd": "node scripts/generate-erd.js",
     "erd:cli": "sequelize-erd --source ./scripts/erd-source.js --destination ./erd.svg"
