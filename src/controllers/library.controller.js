@@ -26,7 +26,8 @@ const checkAccessController = async (req, res) => {
 
     if (!pdf_url) {
       return res.status(StatusCodes.BAD_REQUEST).send({
-        message: "pdf_url is required",
+        // message: "pdf_url is required",
+        message: ""
       });
     }
 
